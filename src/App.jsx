@@ -8,7 +8,9 @@ function App() {
   return (
     <>
       <Routes>
+        <Route path="/" element={<ProductList />} />
         <Route path="/product-list" element={<ProductList />} />
+        <Route path="/product-details/" element={<ProductList />} />
         <Route path="/product-details/:id" element={<ProductDetails />} />
         <Route path="/cart" element={<CartPage />} />
       </Routes>
