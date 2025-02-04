@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import { ShoppingCartContext } from '../context/Context'
 import { useNavigate } from 'react-router-dom';
+import CartTile from './cartTile';
 
 const CartPage = () => {
   const { cartItems } = useContext(ShoppingCartContext);
@@ -12,18 +13,25 @@ const CartPage = () => {
 
       <div className='grid md:grid-cols-3 gap-8 mt-12'>
         <div className='md:col-span-2 space-y-4 '>
-
+          {
+            cartItems?.length ?
+              cartItems.map(singleCartItem => <CartTile singleCartItem={singleCartItem} />)
+              : <h1 className='text-4xl font-bold ml-10'>No items available in cart.</h1>
+          }
         </div>
 
-        <div className='bg-gray-100  rounded-sm p-4 h-max'>
+        <div className='bg-gray-100  rounded-sm p-4 h-max mr-5'>
           <h3 className='text-xl font-bold border-b border-gray-300 pb-2'>Order Summary</h3>
           <ul className='mt-4 space-y-2'>
             <p className='flex flex-wrap gap-4 text-sm font-bold'>
-              Total <span></span>
+              Total <span>$ {cartItems.reduce((acc, curr) => acc + curr.totalPrice, 0).toFixed(2)}</span>
             </p>
           </ul>
           <div className='mt-5 flex gap-8 '>
-            <button className='text-sm px-4 py-3 bg-black text-white font-bold rounded-md cursor-pointer'>Checkout</button>
+            <button
+              disabled={cartItems.length === 0}
+              className='disabled:cursor-not-allowed disabled:opacity-65 text-sm px-4 py-3 bg-black text-white font-bold rounded-md cursor-pointer'>Checkout</button>
+
             <button onClick={() => navigate('/product-list')} className='text-sm px-4 py-3 bg-black text-white font-bold rounded-md cursor-pointer'>Continue Shopping</button>
           </div>
         </div>
